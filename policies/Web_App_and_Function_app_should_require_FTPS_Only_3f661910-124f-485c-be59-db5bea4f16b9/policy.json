@@ -1,6 +1,6 @@
 {
  "properties": {
-  "displayName": "Web App and Function app should require FTPS Only",
+  "displayName": "Web App and Function app should require FTPS Only TEST",
   "policyType": "Custom",
   "mode": "All",
   "metadata": {
