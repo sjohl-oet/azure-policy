@@ -1,0 +1,31 @@
+{
+ "sku": {
+  "name": "A0",
+  "tier": "Free"
+ },
+ "identity": {
+  "principalId": "faf693aa-bcb8-4f7f-8cfd-50661554f9a3",
+  "tenantId": "eadaaa2f-1d17-482b-8b97-839ec8e97361",
+  "type": "SystemAssigned"
+ },
+ "properties": {
+  "displayName": "Web app and Function app slots should enable FTPS",
+  "policyDefinitionId": "/subscriptions/9bdb8e29-156f-4fc9-a1fe-1bb6a915a4f0/providers/Microsoft.Authorization/policyDefinitions/d1d3f770-81c0-4a3a-9d13-9f6b953376c8",
+  "scope": "/subscriptions/9bdb8e29-156f-4fc9-a1fe-1bb6a915a4f0",
+  "notScopes": [],
+  "parameters": {},
+  "metadata": {
+   "assignedBy": "Srivani Mulupuru",
+   "parameterScopes": {},
+   "createdBy": "45ea14c0-7f8a-4436-b1ed-cc9c961b7eac",
+   "createdOn": "2022-12-14T23:42:38.9301083Z",
+   "updatedBy": null,
+   "updatedOn": null
+  },
+  "enforcementMode": "Default"
+ },
+ "id": "/subscriptions/9bdb8e29-156f-4fc9-a1fe-1bb6a915a4f0/providers/Microsoft.Authorization/policyAssignments/83fb142b4e6a4e49b6d73b48",
+ "type": "Microsoft.Authorization/policyAssignments",
+ "name": "83fb142b4e6a4e49b6d73b48",
+ "location": "westus"
+}

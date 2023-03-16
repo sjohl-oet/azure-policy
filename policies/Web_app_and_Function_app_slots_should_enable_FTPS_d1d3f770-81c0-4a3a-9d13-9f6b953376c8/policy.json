@@ -1,0 +1,100 @@
+{
+ "properties": {
+  "displayName": "Web app and Function app slots should enable FTPS",
+  "policyType": "Custom",
+  "mode": "Indexed",
+  "metadata": {
+   "category": "App Service",
+   "createdBy": "45ea14c0-7f8a-4436-b1ed-cc9c961b7eac",
+   "createdOn": "2022-12-14T23:40:12.3333908Z",
+   "updatedBy": null,
+   "updatedOn": null
+  },
+  "parameters": {
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Effect",
+     "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+     "DeployIfNotExists",
+     "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Web/sites/slots"
+     },
+     {
+      "field": "kind",
+      "notContains": "workflowapp"
+     }
+    ]
+   },
+   "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+     "type": "Microsoft.Web/sites/slots/config",
+     "name": "web",
+     "existenceCondition": {
+      "field": "Microsoft.Web/sites/slots/config/ftpsState",
+      "in": [
+       "FtpsOnly",
+       "Disabled"
+      ]
+     },
+     "roleDefinitionIds": [
+      "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+     ],
+     "deployment": {
+      "properties": {
+       "mode": "incremental",
+       "parameters": {
+        "webAppName": {
+         "value": "[field('fullName')]"
+        },
+        "location": {
+         "value": "[field('location')]"
+        }
+       },
+       "template": {
+        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+        "parameters": {
+         "webAppName": {
+          "type": "string"
+         },
+         "location": {
+          "type": "string"
+         }
+        },
+        "variables": {},
+        "resources": [
+         {
+          "name": "[concat(parameters('webAppName'), '/web')]",
+          "type": "Microsoft.Web/sites/slots/config",
+          "apiVersion": "2020-09-01",
+          "location": "[parameters('location')]",
+          "properties": {
+           "ftpsState": "FtpsOnly"
+          }
+         }
+        ],
+        "outputs": {}
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "id": "/subscriptions/9bdb8e29-156f-4fc9-a1fe-1bb6a915a4f0/providers/Microsoft.Authorization/policyDefinitions/d1d3f770-81c0-4a3a-9d13-9f6b953376c8",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "d1d3f770-81c0-4a3a-9d13-9f6b953376c8"
+}

@@ -1,0 +1,88 @@
+{
+ "properties": {
+  "displayName": "Web App and Function app should require FTPS Only",
+  "policyType": "Custom",
+  "mode": "All",
+  "metadata": {
+   "createdBy": "45ea14c0-7f8a-4436-b1ed-cc9c961b7eac",
+   "createdOn": "2022-10-07T20:09:52.7632451Z",
+   "updatedBy": null,
+   "updatedOn": null
+  },
+  "parameters": {
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Effect",
+     "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+     "DeployIfNotExists",
+     "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+   }
+  },
+  "policyRule": {
+   "if": {
+    "field": "type",
+    "equals": "Microsoft.Web/sites"
+   },
+   "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+     "type": "Microsoft.Web/sites/config",
+     "existenceCondition": {
+      "field": "Microsoft.Web/sites/config/ftpsState",
+      "in": [
+       "FtpsOnly",
+       "Disabled"
+      ]
+     },
+     "roleDefinitionIds": [
+      "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+     ],
+     "deployment": {
+      "properties": {
+       "mode": "incremental",
+       "parameters": {
+        "webAppName": {
+         "value": "[field('name')]"
+        },
+        "location": {
+         "value": "[field('location')]"
+        }
+       },
+       "template": {
+        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+        "parameters": {
+         "webAppName": {
+          "type": "string"
+         },
+         "location": {
+          "type": "string"
+         }
+        },
+        "resources": [
+         {
+          "name": "[concat(parameters('webAppName'), '/web')]",
+          "type": "Microsoft.Web/sites/config",
+          "apiVersion": "2020-09-01",
+          "location": "[parameters('location')]",
+          "properties": {
+           "ftpsState": "FtpsOnly"
+          }
+         }
+        ]
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "id": "/subscriptions/9bdb8e29-156f-4fc9-a1fe-1bb6a915a4f0/providers/Microsoft.Authorization/policyDefinitions/3f661910-124f-485c-be59-db5bea4f16b9",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "3f661910-124f-485c-be59-db5bea4f16b9"
+}

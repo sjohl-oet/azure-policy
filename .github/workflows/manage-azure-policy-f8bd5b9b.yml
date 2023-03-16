@@ -1,0 +1,34 @@
+name: manage-azure-policy-f8bd5b9b
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'policies/Web_app_and_Function_app_slots_should_enable_FTPS_d1d3f770-81c0-4a3a-9d13-9f6b953376c8/**'
+#      - 'policies/Web_App_and_Function_app_should_require_FTPS_Only_3f661910-124f-485c-be59-db5bea4f16b9/**'
+#      - .github/workflows/manage-azure-policy-f8bd5b9b.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_f8bd5b9b}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          policies/Web_app_and_Function_app_slots_should_enable_FTPS_d1d3f770-81c0-4a3a-9d13-9f6b953376c8/**
+          policies/Web_App_and_Function_app_should_require_FTPS_Only_3f661910-124f-485c-be59-db5bea4f16b9/**
